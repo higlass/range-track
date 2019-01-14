@@ -1,0 +1,34 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "airbnb/base",
+    "prettier"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {},
+    "ecmaVersion": 6
+  },
+  "globals": {
+    "DEPENDENCIES": false,
+    "VERSION": false
+  },
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "class-methods-use-this": 0,
+    "no-bitwise": 0,
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
+    "no-param-reassign": ["error", { "props": false }],
+    "no-plusplus": 0,
+    "no-underscore-dangle": 0,
+    "prefer-destructuring": 0
+  }
+}

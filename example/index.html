@@ -1,0 +1,226 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="author" content="Fritz Lekschas" />
+    <meta
+      name="description"
+      content="A plugin track to display ranges in HiGlass"
+    />
+    <meta name="keywords" content="HiGlass, Plugin Tracks, Image, Gigapixel" />
+
+    <!-- Schema.org markup for Google -->
+    <meta itemprop="name" content="HiGlass Range Track" />
+    <meta
+      itemprop="description"
+      content="A plugin track to display ranges in HiGlass"
+    />
+    <meta
+      itemprop="image"
+      content="https://raw.githubusercontent.com/higlass/range-track/master/teaser.jpg"
+    />
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@flekschas" />
+    <meta name="twitter:title" content="HiGlass Range Track" />
+    <meta
+      name="twitter:description"
+      content="A plugin track to display ranges in HiGlass"
+    />
+    <meta name="twitter:creator" content="@flekschas" />
+    <meta
+      name="twitter:image:src"
+      content="https://raw.githubusercontent.com/higlass/range-track/master/teaser.jpg"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="HiGlass Range Track" />
+    <meta
+      property="og:description"
+      content="A plugin track to display ranges in HiGlass"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://github.com/higlass/range-track" />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/higlass/range-track/master/teaser.jpg"
+    />
+
+    <title>HiGlass Range Tracks</title>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="hglib.css" />
+
+    <style type="text/css">
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Open Sans', sans-serif;
+        background: black !important;
+      }
+      #demo {
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+        bottom: 1rem;
+        right: 1rem;
+      }
+      #info {
+        position: absolute;
+        z-index: 1;
+        left: 1rem;
+        top: 1rem;
+        right: 1rem;
+        height: 5rem;
+        color: #999;
+        line-height: 1.25rem;
+        background: rgba(0, 0, 0, 0.85);
+      }
+      #info a {
+        color: #fff;
+      }
+      #info .left {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 30%;
+        bottom: 0;
+      }
+      #info .right {
+        position: absolute;
+        left: 70%;
+        top: 0;
+        right: 0;
+        bottom: 0;
+      }
+      #info .right a {
+        position: absolute;
+        display: block;
+        top: 0;
+        right: 0;
+        bottom: 1rem;
+        left: 1rem;
+        color: #fff;
+        text-align: center;
+        line-height: 4rem;
+        background: #222;
+        border-radius: 0.25rem;
+      }
+    </style>
+
+    <script src="https://unpkg.com/react@16.7/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.7/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/pixi.js@4.8/dist/pixi.min.js"></script>
+    <script src="https://unpkg.com/react-bootstrap@0.32.1/dist/react-bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div id="info">
+      <div class="left">
+        <p>
+          This track lets you display ranges in
+          <a href="https://higlass.io" target="_blank">HiGlass</a>.
+        </p>
+      </div>
+      <div class="right">
+        <a href="https://github.com/higlass/range-track">Source Code</a>
+      </div>
+    </div>
+    <div id="demo"></div>
+  </body>
+  <script src="hglib.js"></script>
+  <script>
+    const viewConfig = {
+      editable: false,
+      zoomFixed: false,
+      views: [
+        {
+          initialXDomain: [0, 454330],
+          initialYDomain: [0, 149278],
+          tracks: {
+            center: [
+              {
+                name: 'Epilogos (hg38)',
+                created: '2018-07-07T23:41:02.815824Z',
+                server: '//higlass.io/api/v1',
+                tilesetUid: 'WtBJUYawQzS9M2WVIIHnlA',
+                uid: 'BJNBTZneQketZ5ec1L6RRA',
+                type: 'horizontal-stacked-bar',
+                options: {
+                  labelPosition: 'topLeft',
+                  labelColor: 'black',
+                  labelTextOpacity: 0.4,
+                  valueScaling: 'exponential',
+                  trackBorderWidth: 0,
+                  trackBorderColor: 'black',
+                  backgroundColor: 'white',
+                  barBorder: true,
+                  scaledHeight: false,
+                  sortLargestOnTop: true,
+                  colorScale: [
+                    '#FF0000',
+                    '#FF4500',
+                    '#32CD32',
+                    '#008000',
+                    '#006400',
+                    '#C2E105',
+                    '#FFFF00',
+                    '#66CDAA',
+                    '#8A91D0',
+                    '#CD5C5C',
+                    '#E9967A',
+                    '#BDB76B',
+                    '#808080',
+                    '#C0C0C0',
+                    '#FFFFFF'
+                  ],
+                  name: 'Epilogos (hg38)'
+                },
+                width: 571,
+                height: 83,
+                resolutions: [
+                  13107200,
+                  6553600,
+                  3276800,
+                  1638400,
+                  819200,
+                  409600,
+                  204800,
+                  102400,
+                  51200,
+                  25600,
+                  12800,
+                  6400,
+                  3200,
+                  1600,
+                  800,
+                  400,
+                  200
+                ],
+                position: 'top'
+              }
+            ]
+          },
+          layout: {
+            w: 12,
+            h: 12,
+            x: 0,
+            y: 0,
+            moved: false,
+            static: false
+          }
+        }
+      ]
+    };
+
+    window.hglib.viewer(document.getElementById('demo'), viewConfig, {
+      bounded: true,
+      isDarkTheme: true
+    });
+  </script>
+</html>

@@ -1,0 +1,31 @@
+language: node_js
+node_js:
+  - '8'
+branches:
+  only:
+    - master
+    - develop
+    - '/^v.*$/'
+before_script:
+  - npm install
+before_deploy:
+  - npm run prerelease
+deploy:
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure: Rh+pEXT1qGd4ZXtJ+q5TKpwJeYoP/Nw5+pdtSOD26dMp/J6mHdXzyLODB2rjb2cxNfvFykg60N2GMrmXRmpiLwOXm/yxq1pdFu18/VUIXK5qPSGUo/40QFhT5V6myt/5AFoaSidNgjXYTmFH5hfiwFbTuALICbk9l94lBXxKwSWHSf6T0LD2X/VObgD/AmLIJuoVdp05FUD54CIchikqo5Fxqblp1B3Cuu4vPGpjhaA/M/bhs8fsfdZPdUOIYVtlt9QpkFnaJcYldhfsF0MghEw/uVtaY590seQrrOfQx+4WHHFvpFBL+bGwcLmBOkNUjmi7T9RnMfDmLYrRWl0DEoCmjUmR3VZdXrzk3+LqBnU2moQpqHrK0jcqJAZpZ7lAjkFSGn2/6nGlp7fnclYfhrXIMVdMEF/Qv1FRnz6Gp17HwjRWuH3+GKfDdx2hj97DNCXlDEY3pG4kmoNGGk055uI7l5nkwFmI8dIm2Yvt+sSPdImSYkxcWKL5+ctTxdmMlHdU0LiDe+JILVnlS4tkHndZYnXKAdO9LNEsP/YpJ1JFldSHEGfwUPVWWlMNuoiuR+Ron4eGBbcziLVPkIRfqfcHDYCMryMP9jeBocqYWim6Rfyh2GkMys0RAj0SPwHqoyf5QErfHWpaxV4fjzL0BCMNyPk4TwLNoZyqpgIhFsE=
+    file: dist.zip
+    on:
+      branch: master
+      tags: true
+      repo: higlass/range-track
+  - provider: npm
+    skip_cleanup: true
+    email: service@lekschas.de
+    api_key:
+      secure: dCpifsijIOJl3iDVGUd0qUGPCver3Ee1irVXHQ2lYpTFjt8kdmeAFYJ9+amgkP29yLbCSmx0vC9rs+Ly7uLYGqkuhe9YSQzwWTXTzSFLJz2rXG7Ga5rebfm39W9YaTr3xPbrHYgLyhnUSU9yZhZneTWlW4JpJVDY5ke8Sfv9lz9EeVZ0Rro25Pneog3GhGa8M4QyWEr4GQ7lUxB67YWKLJXL4AWK1hU11MAEycBJRDWUdXXNqKS8kFMxyrbkqZNjIoO6KcJ1WFySKZIt1TljaxmIqstlWfuY/xmaegd9tqGkltqwYWDlimtHZtV3sJM+me2h5xQ8Rw+b5icY7DetBW3iEH0j2R4D95EDUIwA1XrT2O5BNs9stHVLK8Xx511o4/wbY0Ml91yBijKCTbz0e5HF0AI7zKCFPW3HNb8Bx8xPsKdP987n9MAGtfn+xGLWn7IdA9RzitiNF6a54L3QLgOqNvylFMn2xv6Z4yfP7bA7etxNXNf6cjgWulOOghahv2N/rdztes2A+1S+hWd9TdTkYy0b/CsqGXCE9QOHBdY4UmaDR2EoBJNO139GKvZvRyyZju6kjHUr07AKPJmXvS+h0wW++TFq9SzWxn/9dHq2tJT3wQG7a3wtaZqOREE/7F7xcGaTqY7WxLIZy9cOKmwuFmXYAkUVHFSQ03FEf/s=
+    on:
+      branch: master
+      tags: true
+      repo: higlass/range-track
