@@ -62,12 +62,11 @@
         margin: 0;
         padding: 0;
         font-family: 'Open Sans', sans-serif;
-        background: black !important;
       }
       #demo {
         position: absolute;
         left: 1rem;
-        top: 1rem;
+        top: 5rem;
         bottom: 1rem;
         right: 1rem;
       }
@@ -77,17 +76,18 @@
         left: 1rem;
         top: 1rem;
         right: 1rem;
-        height: 5rem;
-        color: #999;
+        height: 3rem;
+        color: #666;
         line-height: 1.25rem;
-        background: rgba(0, 0, 0, 0.85);
+        border-radius: 0.25rem;
+        background: #eee;
       }
       #info a {
-        color: #fff;
+        color: #000;
       }
       #info .left {
         position: absolute;
-        left: 0;
+        left: 1em;
         top: 0;
         right: 30%;
         bottom: 0;
@@ -104,13 +104,15 @@
         display: block;
         top: 0;
         right: 0;
-        bottom: 1rem;
+        bottom: 0;
         left: 1rem;
-        color: #fff;
+        color: #666;
+        font-weight: bold;
         text-align: center;
-        line-height: 4rem;
-        background: #222;
-        border-radius: 0.25rem;
+        text-decoration: none;
+        line-height: 3rem;
+        background: #ddd;
+        border-radius: 0 0.25rem 0.25rem 0;
       }
     </style>
 
@@ -135,92 +137,79 @@
   </body>
   <script src="hglib.js"></script>
   <script>
-    const viewConfig = {
-      editable: false,
-      zoomFixed: false,
-      views: [
-        {
-          initialXDomain: [0, 454330],
-          initialYDomain: [0, 149278],
-          tracks: {
-            center: [
-              {
-                name: 'Epilogos (hg38)',
-                created: '2018-07-07T23:41:02.815824Z',
-                server: '//higlass.io/api/v1',
-                tilesetUid: 'WtBJUYawQzS9M2WVIIHnlA',
-                uid: 'BJNBTZneQketZ5ec1L6RRA',
-                type: 'horizontal-stacked-bar',
-                options: {
-                  labelPosition: 'topLeft',
-                  labelColor: 'black',
-                  labelTextOpacity: 0.4,
-                  valueScaling: 'exponential',
-                  trackBorderWidth: 0,
-                  trackBorderColor: 'black',
-                  backgroundColor: 'white',
-                  barBorder: true,
-                  scaledHeight: false,
-                  sortLargestOnTop: true,
-                  colorScale: [
-                    '#FF0000',
-                    '#FF4500',
-                    '#32CD32',
-                    '#008000',
-                    '#006400',
-                    '#C2E105',
-                    '#FFFF00',
-                    '#66CDAA',
-                    '#8A91D0',
-                    '#CD5C5C',
-                    '#E9967A',
-                    '#BDB76B',
-                    '#808080',
-                    '#C0C0C0',
-                    '#FFFFFF'
-                  ],
-                  name: 'Epilogos (hg38)'
+  const viewConfig = {
+    editable: false,
+    zoomFixed: false,
+    views: [
+      {
+        initialXDomain: [2470000, 2500000],
+        initialYDomain: [2470000, 2500000],
+        tracks: {
+          top: [
+            {
+              uid: 'chroms',
+              chromInfoPath: '//s3.amazonaws.com/pkerp/data/hg19/chromSizes.tsv',
+              type: 'horizontal-chromosome-labels',
+            },
+            {
+              uid: 'genes',
+              tilesetUid: 'OHJakQICQD6gTD7skx4EWA',
+              server: 'http://higlass.io/api/v1',
+              type: 'horizontal-gene-annotations',
+            },
+            {
+              uid: 'c1',
+              type: 'combined',
+              height: 200,
+              contents: [
+                {
+                  server: 'http://localhost:8001/api/v1',
+                  tilesetUid: 'gm12878-chip-h3k27ac',
+                  uid: 'bars',
+                  type: 'horizontal-bar',
+                  height: 200,
+                  options: {
+                    barFillColor: '#dddddd'
+                  }
                 },
-                width: 571,
-                height: 83,
-                resolutions: [
-                  13107200,
-                  6553600,
-                  3276800,
-                  1638400,
-                  819200,
-                  409600,
-                  204800,
-                  102400,
-                  51200,
-                  25600,
-                  12800,
-                  6400,
-                  3200,
-                  1600,
-                  800,
-                  400,
-                  200
-                ],
-                position: 'top'
+                {
+                  server: 'http://localhost:8001/api/v1',
+                  tilesetUid: 'gm12878-chip-h3k27ac',
+                  uid: 'range',
+                  type: 'range',
+                  height: 100,
+                  options: {
+                    mode: 'minMax'
+                  }
+                }
+              ]
+            },
+            {
+              server: 'http://localhost:8001/api/v1',
+              tilesetUid: 'gm12878-chip-h3k27ac',
+              uid: 'range2',
+              type: 'range',
+              height: 100,
+              options: {
+                mode: 'whisker'
               }
-            ]
-          },
-          layout: {
-            w: 12,
-            h: 12,
-            x: 0,
-            y: 0,
-            moved: false,
-            static: false
-          }
+            }
+          ]
+        },
+        layout: {
+          w: 12,
+          h: 12,
+          x: 0,
+          y: 0,
+          moved: false,
+          static: false
         }
-      ]
-    };
+      }
+    ]
+  };
 
-    window.hglib.viewer(document.getElementById('demo'), viewConfig, {
-      bounded: true,
-      isDarkTheme: true
-    });
+  window.hglib.viewer(document.getElementById('demo'), viewConfig, {
+    bounded: true,
+  });
   </script>
 </html>
