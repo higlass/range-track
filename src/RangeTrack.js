@@ -91,9 +91,9 @@ const RangeTrack = function RangeTrack(HGC, ...args) {
 
         case 'minMax':
         default:
-          graphics.children.forEach(child => {
-            graphics.removeChild(child);
-          });
+          while (graphics.children[0]) {
+            graphics.removeChild(graphics.children[0]);
+          }
           this.renderMinMax(tile, tileXScale);
           break;
       }
@@ -101,7 +101,8 @@ const RangeTrack = function RangeTrack(HGC, ...args) {
 
     renderMinMax(tile, tileXScale) {
       const tileValues = tile.tileData.dense;
-      const stepSize = tile.tileData.size;
+      const dataStepSize = tile.tileData.size;
+      const resStepSize = +this.options.resolution || 1;
 
       const color = this.options.minMaxColor || 'grey';
       const colorHex = colorToHex(color);
@@ -109,18 +110,32 @@ const RangeTrack = function RangeTrack(HGC, ...args) {
 
       tile.graphics.beginFill(colorHex, opacity);
 
+      let dPos;
       let xPos;
       let width;
+      let minVal;
+      let maxVal;
       let yStartPos;
       let yEndPos;
       let height;
 
-      const numVals = tileValues.length / stepSize;
+      const numVals = tileValues.length / dataStepSize / resStepSize;
+
       for (let i = 0; i < numVals; i++) {
-        xPos = this._xScale(tileXScale(i));
-        yStartPos = this.valueScale(tileValues[i * stepSize]);
-        yEndPos = this.valueScale(tileValues[i * stepSize + 1]);
-        width = this._xScale(tileXScale(i + 1)) - xPos;
+        dPos = i * resStepSize;
+        xPos = this._xScale(tileXScale(dPos));
+
+        minVal = Infinity;
+        maxVal = -Infinity;
+
+        for (let j = 0; j < resStepSize; j++) {
+          minVal = Math.min(minVal, tileValues[(dPos + j) * dataStepSize]);
+          maxVal = Math.max(maxVal, tileValues[(dPos + j) * dataStepSize + 1]);
+        }
+
+        yStartPos = this.valueScale(minVal);
+        yEndPos = this.valueScale(maxVal);
+        width = this._xScale(tileXScale(dPos + resStepSize)) - xPos;
         height = Math.max(1, yStartPos - yEndPos) || 1;
 
         this.addSVGInfo(tile, xPos, yEndPos, width, height, color);
@@ -135,26 +150,43 @@ const RangeTrack = function RangeTrack(HGC, ...args) {
 
     renderWhisker(tile, tileXScale) {
       const tileValues = tile.tileData.dense;
-      const stepSize = tile.tileData.size;
+      const dataStepSize = tile.tileData.size;
+      const resStepSize = +this.options.resolution || 1;
 
+      const vLineG = new PIXI.Graphics();
       const minMaxG = new PIXI.Graphics();
       const stdG = new PIXI.Graphics();
       const meanG = new PIXI.Graphics();
 
+      tile.graphics.addChild(vLineG);
       tile.graphics.addChild(minMaxG);
       tile.graphics.addChild(stdG);
       tile.graphics.addChild(meanG);
 
-      const stdColor = this.options.stdColor || 'black';
-      const stdColorHex = colorToHex(stdColor);
-      const stdOpacity =
-        +this.options.stdOpacity >= 0 ? +this.options.stdOpacity : 0.2;
-      stdG.beginFill(stdColorHex, stdOpacity);
+      const vLineColor = this.options.vLineColor || 'black';
+      const vLineColorHex = colorToHex(vLineColor);
+      const vLineOpacity =
+        +this.options.vLineOpacity >= 0 ? +this.options.vLineOpacity : 1;
+      vLineG.beginFill(vLineColorHex, vLineOpacity);
 
-      const minMaxColor = this.options.minMaxColor || 'red';
+      const stdFillColor = this.options.stdFillColor || 'white';
+      const stdFillColorHex = colorToHex(stdFillColor);
+      const stdFillOpacity =
+        +this.options.stdFillOpacity >= 0 ? +this.options.stdFillOpacity : 1;
+      stdG.beginFill(stdFillColorHex, stdFillOpacity);
+
+      const stdStrokeColor = this.options.stdStrokeColor || 'black';
+      const stdStrokeColorHex = colorToHex(stdStrokeColor);
+      const stdStrokeOpacity =
+        +this.options.stdStrokeOpacity >= 0
+          ? +this.options.stdStrokeOpacity
+          : 1;
+      stdG.lineStyle(1, stdStrokeColorHex, stdStrokeOpacity);
+
+      const minMaxColor = this.options.minMaxColor || 'black';
       const minMaxColorHex = colorToHex(minMaxColor);
       const minMaxOpacity =
-        +this.options.minMaxOpacity >= 0 ? +this.options.minMaxOpacity : 0.66;
+        +this.options.minMaxOpacity >= 0 ? +this.options.minMaxOpacity : 1;
       minMaxG.beginFill(minMaxColorHex, minMaxOpacity);
 
       const meanColor = this.options.meanColor || 'black';
@@ -163,33 +195,70 @@ const RangeTrack = function RangeTrack(HGC, ...args) {
         +this.options.meanOpacity >= 0 ? +this.options.meanOpacity : 1;
       meanG.beginFill(meanColorHex, meanOpacity);
 
+      let dPos;
       let xPos;
       let width;
       let yMax;
       let yMin;
       let yMean;
       let std;
+      let minVal;
+      let maxVal;
+      let meanVal;
+      let meanVals;
+      let meanSum;
+      let stdVal;
+      let stdNewVal;
 
-      const numVals = tileValues.length / stepSize;
+      const numVals = tileValues.length / dataStepSize / resStepSize;
+
       for (let i = 0; i < numVals; i++) {
-        xPos = this._xScale(tileXScale(i));
-        width = this._xScale(tileXScale(i + 1)) - xPos;
+        dPos = i * resStepSize;
+        xPos = this._xScale(tileXScale(dPos));
+        width = this._xScale(tileXScale(dPos + resStepSize)) - xPos;
 
-        yMin = this.valueScale(tileValues[i * stepSize]);
-        yMax = this.valueScale(tileValues[i * stepSize + 1]);
-        yMean = this.valueScale(tileValues[i * stepSize + 2]);
-        std = Math.abs(
-          this.dimensions[1] - this.valueScale(tileValues[i * stepSize + 3])
-        );
+        minVal = Infinity;
+        maxVal = -Infinity;
+        meanVal = 0;
+        meanSum = 0;
+        meanVals = [];
+        stdVal = 0;
+
+        for (let j = 0; j < resStepSize; j++) {
+          minVal = Math.min(minVal, tileValues[(dPos + j) * dataStepSize]);
+          maxVal = Math.max(maxVal, tileValues[(dPos + j) * dataStepSize + 1]);
+          meanVal = tileValues[(dPos + j) * dataStepSize + 2];
+          meanVals.push(meanVal);
+          meanSum += meanVal;
+          stdVal += tileValues[(dPos + j) * dataStepSize + 3];
+        }
+
+        // Average mean and standard deviation across aggregated data points
+        meanVal = meanSum / resStepSize;
+
+        if (resStepSize > 1) {
+          stdNewVal = 0;
+          for (let j = 0; j < resStepSize; j++) {
+            stdNewVal += (meanVals[j] - meanVal) ** 2;
+          }
+          stdVal = Math.sqrt(stdNewVal / resStepSize);
+        }
+
+        yMin = this.valueScale(minVal);
+        yMax = this.valueScale(maxVal);
+        yMean = this.valueScale(meanVal);
+        std = Math.abs(this.dimensions[1] - this.valueScale(stdVal));
 
         // this data is in the last tile and extends beyond the length
         // of the coordinate system
         if (tileXScale(i) > this.tilesetInfo.max_pos[0]) break;
 
+        vLineG.drawRect(xPos + resStepSize / 2, yMax, 1, yMin - yMax);
+
         minMaxG.drawRect(xPos, yMin, width, 1);
         minMaxG.drawRect(xPos, yMax, width, 1);
 
-        stdG.drawRect(xPos, yMean - std, width, std * 10);
+        stdG.drawRect(xPos, yMean - std, width, std * 2);
 
         meanG.drawRect(xPos, yMean, width, 1);
       }
@@ -230,19 +299,35 @@ RangeTrack.config = {
     'mode',
     'minMaxColor',
     'minMaxOpacity',
+    'minColor',
+    'minOpacity',
+    'maxColor',
+    'maxOpacity',
     'meanColor',
     'meanOpacity',
-    'stdColor',
-    'stdOpacity'
+    'stdFillColor',
+    'stdFillOpacity',
+    'stdStrokeColor',
+    'stdStrokeOpacity',
+    'vLineColor',
+    'vLineOpacity'
   ],
   defaultOptions: {
     mode: 'minMax',
-    minMaxColor: '#000000',
+    minMaxColor: 'black',
     minMaxOpacity: 0.66,
-    meanColor: '#ff0000',
+    minColor: 'black',
+    minOpacity: 1,
+    maxColor: 'black',
+    maxOpacity: 1,
+    meanColor: 'black',
     meanOpacity: 1,
-    stdColor: '#000000',
-    stdOpacit: 0.2
+    stdFillColor: 'white',
+    stdFillOpacity: 1,
+    stdStrokeColor: 'black',
+    stdStrokeOpacity: 1,
+    vLineColor: 'black',
+    vLineOpacity: 1
   }
 };
 
