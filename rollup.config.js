@@ -18,7 +18,7 @@ const configurator = (file, format, plugins) => ({
   plugins
 });
 
-const devConfig = configurator('dist/higlass-whisker.js', 'umd', [
+const devConfig = configurator('dist/higlass-range.js', 'umd', [
   resolve(),
   commonjs({ sourceMap: false }),
   babel(),
@@ -26,7 +26,7 @@ const devConfig = configurator('dist/higlass-whisker.js', 'umd', [
   visualizer()
 ]);
 
-const prodConfig = configurator('dist/higlass-whisker.min.js', 'umd', [
+const prodConfig = configurator('dist/higlass-range.min.js', 'umd', [
   resolve(),
   commonjs({ sourceMap: false }),
   babel(),
