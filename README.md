@@ -3,9 +3,10 @@
 > A track for plotting ranges in HiGlass
 
 [![HiGlass](https://img.shields.io/badge/higlass-👍-red.svg?colorB=000000)](http://higlass.io)
-[![Demo](https://img.shields.io/badge/demo-🙈-red.svg?colorB=000000)](https://higlass.github.io/range-track)
-[![Build Status](https://img.shields.io/travis/higlass/range-track/master.svg?colorB=000000)](https://travis-ci.org/higlass/range-track)
-[![code style prettier](https://img.shields.io/badge/code_style-prettier-000000.svg)](https://github.com/prettier/prettier)
+[![Demo](https://img.shields.io/badge/demo-🙈-red.svg?colorB=fa0460)](https://higlass.github.io/range-track)
+[![npm version](https://img.shields.io/npm/v/higlass-range.svg?colorB=fa04ac)](https://www.npmjs.com/package/higlass-range)
+[![Build Status](https://img.shields.io/travis/higlass/range-track/master.svg?colorB=c304fa)](https://travis-ci.org/higlass/range-track)
+[![code style prettier](https://img.shields.io/badge/code_style-prettier-9a04fa.svg)](https://github.com/prettier/prettier)
 
 ![HiGlass](/teaser.png?raw=true 'A beautiful set of ranges')
 
