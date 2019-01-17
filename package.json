@@ -33,9 +33,7 @@
   },
   "dependencies": {
     "d3-scale": "^2.1.2",
-    "higlass-register": "^0.1.0",
-    "mixwith": "^0.1.1",
-    "slugid": "^1.1.0"
+    "higlass-register": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
