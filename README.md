@@ -5,7 +5,7 @@
 [![HiGlass](https://img.shields.io/badge/higlass-👍-red.svg?colorB=000000)](http://higlass.io)
 [![Demo](https://img.shields.io/badge/demo-🙈-red.svg?colorB=000000)](https://higlass.github.io/range-track)
 [![Build Status](https://img.shields.io/travis/higlass/range-track/master.svg?colorB=000000)](https://travis-ci.org/higlass/range-track)
-[![code style prettier](https://img.shields.io/badge/code_style-prettier-80a1ff.svg)](https://github.com/prettier/prettier)
+[![code style prettier](https://img.shields.io/badge/code_style-prettier-000000.svg)](https://github.com/prettier/prettier)
 
 ![HiGlass](/teaser.png?raw=true 'A beautiful set of ranges')
 
