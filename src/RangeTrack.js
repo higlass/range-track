@@ -287,7 +287,7 @@ const RangeTrack = function RangeTrack(HGC, ...args) {
 };
 
 const icon =
-  '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="598px" height="568px" viewBox="0 0 5980 5680" preserveAspectRatio="xMidYMid meet"> <g id="layer101" fill="#000000" stroke="none"> <path d="M0 2840 l0 -2840 2990 0 2990 0 0 2840 0 2840 -2990 0 -2990 0 0 -2840z"/> </g> <g id="layer102" fill="#ff1388" stroke="none"> <path d="M180 4780 l0 -740 630 0 630 0 0 740 0 740 -630 0 -630 0 0 -740z"/> <path d="M1700 4050 l0 -1470 550 0 550 0 0 1470 0 1470 -550 0 -550 0 0 -1470z"/> <path d="M3100 2990 l0 -2530 610 0 610 0 0 2530 0 2530 -610 0 -610 0 0 -2530z"/> <path d="M4580 3670 l0 -1850 610 0 610 0 0 1850 0 1850 -610 0 -610 0 0 -1850z"/> <path d="M0 1920 l0 -1920 2990 0 2990 0 0 810 0 810 -730 0 -730 0 0 -680 0 -680 -810 0 -810 0 0 1060 0 1060 -700 0 -700 0 0 730 0 730 -750 0 -750 0 0 -1920z"/> </g> <g id="layer103" fill="#ffffff" stroke="none"> <path d="M0 1920 l0 -1920 2990 0 2990 0 0 810 0 810 -730 0 -730 0 0 -680 0 -680 -810 0 -810 0 0 1060 0 1060 -700 0 -700 0 0 730 0 730 -750 0 -750 0 0 -1920z"/> </g> </svg>';
+  '<svg width="100%" height="100%" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect x="11" y="0" width="11" height="1"/><rect x="16" y="1" width="1" height="30"/><rect x="11" y="7" width="11" height="21"/><rect x="12" y="8" width="9" height="19" fill="white"/><rect x="12" y="17" width="9" height="1"/><rect x="11" y="31" width="11" height="1"/></svg>';
 
 // default
 RangeTrack.config = {
@@ -297,6 +297,7 @@ RangeTrack.config = {
   thumbnail: new DOMParser().parseFromString(icon, 'text/xml').documentElement,
   availableOptions: [
     'mode',
+    'resolution',
     'minMaxColor',
     'minMaxOpacity',
     'minColor',
@@ -314,6 +315,7 @@ RangeTrack.config = {
   ],
   defaultOptions: {
     mode: 'minMax',
+    resolution: 1,
     minMaxColor: 'black',
     minMaxOpacity: 0.66,
     minColor: 'black',
