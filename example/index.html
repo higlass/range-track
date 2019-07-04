@@ -116,10 +116,10 @@
       }
     </style>
 
-    <script src="https://unpkg.com/react@16.7/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@16.7/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/pixi.js@4.8/dist/pixi.min.js"></script>
-    <script src="https://unpkg.com/react-bootstrap@0.32.1/dist/react-bootstrap.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react@16.7/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16.7/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/pixi.js@5/dist/pixi.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.32.1/react-bootstrap.min.js"></script>
   </head>
   <body>
     <div id="info">
@@ -142,8 +142,8 @@
     zoomFixed: false,
     views: [
       {
-        initialXDomain: [2470000, 2500000],
-        initialYDomain: [2470000, 2500000],
+        initialXDomain: [247000, 25000000],
+        initialYDomain: [247000, 25000000],
         tracks: {
           top: [
             {
@@ -154,24 +154,23 @@
             {
               uid: 'genes',
               tilesetUid: 'OHJakQICQD6gTD7skx4EWA',
-              server: 'http://higlass.io/api/v1',
+              server: '//higlass.io/api/v1',
               type: 'horizontal-gene-annotations',
             },
             {
-              server: 'http://localhost:8001/api/v1',
-              tilesetUid: 'gm12878-chip-h3k27ac',
+              server: '//higlass.io/api/v1',
+              tilesetUid: 'E36VpigUTAaHI-_pm1hGsA',
               uid: 'bars',
               type: 'horizontal-bar',
               height: 80,
               options: {
                 barFillColor: 'black',
                 barOpacity: 0.5,
-                valueScaleMax: 90
               }
             },
             {
-              server: 'http://localhost:8001/api/v1',
-              tilesetUid: 'gm12878-chip-h3k27ac',
+              server: '//higlass.io/api/v1',
+              tilesetUid: 'E36VpigUTAaHI-_pm1hGsA',
               uid: 'range',
               type: 'range',
               height: 80,
@@ -179,19 +178,17 @@
                 mode: 'minMax',
                 minMaxOpacity: 0.66,
                 resolution: 10,
-                valueScaleMax: 90
               }
             },
             {
-              server: 'http://localhost:8001/api/v1',
-              tilesetUid: 'gm12878-chip-h3k27ac',
+              server: '//higlass.io/api/v1',
+              tilesetUid: 'E36VpigUTAaHI-_pm1hGsA',
               uid: 'range2',
               type: 'range',
               height: 80,
               options: {
                 mode: 'whisker',
                 resolution: 10,
-                valueScaleMax: 90
               }
             }
           ]
