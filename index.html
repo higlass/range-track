@@ -1,0 +1,212 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="author" content="Fritz Lekschas" />
+    <meta
+      name="description"
+      content="A plugin track to display ranges in HiGlass"
+    />
+    <meta name="keywords" content="HiGlass, Plugin Tracks, Image, Gigapixel" />
+
+    <!-- Schema.org markup for Google -->
+    <meta itemprop="name" content="HiGlass Range Track" />
+    <meta
+      itemprop="description"
+      content="A plugin track to display ranges in HiGlass"
+    />
+    <meta
+      itemprop="image"
+      content="https://raw.githubusercontent.com/higlass/range-track/master/teaser.jpg"
+    />
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@flekschas" />
+    <meta name="twitter:title" content="HiGlass Range Track" />
+    <meta
+      name="twitter:description"
+      content="A plugin track to display ranges in HiGlass"
+    />
+    <meta name="twitter:creator" content="@flekschas" />
+    <meta
+      name="twitter:image:src"
+      content="https://raw.githubusercontent.com/higlass/range-track/master/teaser.jpg"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="HiGlass Range Track" />
+    <meta
+      property="og:description"
+      content="A plugin track to display ranges in HiGlass"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://github.com/higlass/range-track" />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/higlass/range-track/master/teaser.jpg"
+    />
+
+    <title>HiGlass Range Tracks</title>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="hglib.css" />
+
+    <style type="text/css">
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Open Sans', sans-serif;
+      }
+      #demo {
+        position: absolute;
+        left: 1rem;
+        top: 5rem;
+        bottom: 1rem;
+        right: 1rem;
+      }
+      #info {
+        position: absolute;
+        z-index: 1;
+        left: 1rem;
+        top: 1rem;
+        right: 1rem;
+        height: 3rem;
+        color: #666;
+        line-height: 1.25rem;
+        border-radius: 0.25rem;
+        background: #eee;
+      }
+      #info a {
+        color: #000;
+      }
+      #info .left {
+        position: absolute;
+        left: 1em;
+        top: 0;
+        right: 30%;
+        bottom: 0;
+      }
+      #info .right {
+        position: absolute;
+        left: 70%;
+        top: 0;
+        right: 0;
+        bottom: 0;
+      }
+      #info .right a {
+        position: absolute;
+        display: block;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 1rem;
+        color: #666;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        line-height: 3rem;
+        background: #ddd;
+        border-radius: 0 0.25rem 0.25rem 0;
+      }
+    </style>
+
+  <script crossorigin src="https://unpkg.com/react@16.7/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16.7/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/pixi.js@5/dist/pixi.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.32.1/react-bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div id="info">
+      <div class="left">
+        <p>
+          This track lets you display ranges in
+          <a href="https://higlass.io" target="_blank">HiGlass</a>.
+        </p>
+      </div>
+      <div class="right">
+        <a href="https://github.com/higlass/range-track">Source Code</a>
+      </div>
+    </div>
+    <div id="demo"></div>
+  <script type="text/javascript" src="./example.js"></script></body>
+  <script src="hglib.js"></script>
+  <script>
+  const viewConfig = {
+    editable: false,
+    zoomFixed: false,
+    views: [
+      {
+        initialXDomain: [247000, 25000000],
+        initialYDomain: [247000, 25000000],
+        tracks: {
+          top: [
+            {
+              uid: 'chroms',
+              chromInfoPath: '//s3.amazonaws.com/pkerp/data/hg19/chromSizes.tsv',
+              type: 'horizontal-chromosome-labels',
+            },
+            {
+              uid: 'genes',
+              tilesetUid: 'OHJakQICQD6gTD7skx4EWA',
+              server: '//higlass.io/api/v1',
+              type: 'horizontal-gene-annotations',
+            },
+            {
+              server: '//higlass.io/api/v1',
+              tilesetUid: 'E36VpigUTAaHI-_pm1hGsA',
+              uid: 'bars',
+              type: 'horizontal-bar',
+              height: 80,
+              options: {
+                barFillColor: 'black',
+                barOpacity: 0.5,
+              }
+            },
+            {
+              server: '//higlass.io/api/v1',
+              tilesetUid: 'E36VpigUTAaHI-_pm1hGsA',
+              uid: 'range',
+              type: 'range',
+              height: 80,
+              options: {
+                mode: 'minMax',
+                minMaxOpacity: 0.66,
+                resolution: 10,
+              }
+            },
+            {
+              server: '//higlass.io/api/v1',
+              tilesetUid: 'E36VpigUTAaHI-_pm1hGsA',
+              uid: 'range2',
+              type: 'range',
+              height: 80,
+              options: {
+                mode: 'whisker',
+                resolution: 10,
+              }
+            }
+          ]
+        },
+        layout: {
+          w: 12,
+          h: 12,
+          x: 0,
+          y: 0,
+          moved: false,
+          static: false
+        }
+      }
+    ]
+  };
+
+  window.hglib.viewer(document.getElementById('demo'), viewConfig, {
+    bounded: true,
+  });
+  </script>
+</html>
